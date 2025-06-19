@@ -23,31 +23,31 @@ const items = ref([
     label: 'places',
     icon: 'pi pi-globe'
   },
-  {
-    label: 'Projects',
-    icon: 'pi pi-search',
-    badge: 3,
-    items: [
-      {
-        label: 'Core',
-        icon: 'pi pi-bolt',
-        shortcut: '⌘+S'
-      },
-      {
-        label: 'Blocks',
-        icon: 'pi pi-server',
-        shortcut: '⌘+B'
-      },
-      {
-        separator: true
-      },
-      {
-        label: 'UI Kit',
-        icon: 'pi pi-pencil',
-        shortcut: '⌘+U'
-      }
-    ]
-  }
+  // {
+  //   label: 'Projects',
+  //   icon: 'pi pi-search',
+  //   badge: 3,
+  //   items: [
+  //     {
+  //       label: 'Core',
+  //       icon: 'pi pi-bolt',
+  //       shortcut: '⌘+S'
+  //     },
+  //     {
+  //       label: 'Blocks',
+  //       icon: 'pi pi-server',
+  //       shortcut: '⌘+B'
+  //     },
+  //     {
+  //       separator: true
+  //     },
+  //     {
+  //       label: 'UI Kit',
+  //       icon: 'pi pi-pencil',
+  //       shortcut: '⌘+U'
+  //     }
+  //   ]
+  // }
 ]);
 
 const isMobile = ref(window.innerWidth < 640);
