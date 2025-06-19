@@ -1,7 +1,10 @@
 <template>
-  <div class="bg-white dark:bg-black dark:text-white min-h-screen">
+  <div class="min-h-screen bg-white dark:bg-black dark:text-white">
     <DesktopNavigationBar />
     <MobileNavigationBar />
+    <main class="pt-20 pb-20 bg-gray-100 dark:bg-gray-800 rounded shadow w-full min-h-screen flex flex-col max-w-none mx-0">
+      <RouterView />
+    </main>
   </div>
 </template>
 
@@ -23,31 +26,6 @@ const items = ref([
     label: 'places',
     icon: 'pi pi-globe'
   },
-  // {
-  //   label: 'Projects',
-  //   icon: 'pi pi-search',
-  //   badge: 3,
-  //   items: [
-  //     {
-  //       label: 'Core',
-  //       icon: 'pi pi-bolt',
-  //       shortcut: '⌘+S'
-  //     },
-  //     {
-  //       label: 'Blocks',
-  //       icon: 'pi pi-server',
-  //       shortcut: '⌘+B'
-  //     },
-  //     {
-  //       separator: true
-  //     },
-  //     {
-  //       label: 'UI Kit',
-  //       icon: 'pi pi-pencil',
-  //       shortcut: '⌘+U'
-  //     }
-  //   ]
-  // }
 ]);
 
 const isMobile = ref(window.innerWidth < 640);
