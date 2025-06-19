@@ -9,21 +9,36 @@ const navShadowClass = 'shadow-2xl dark:shadow-[0_-4px_24px_0_rgba(255,255,255,0
 
 <template>
 	<div v-if="isMobile" :class="navBgClass">
-	      <div class="fixed top-0 left-0 right-0 z-50" :class="`${navBgClass} ${navShadowClass} w-full`">
+	      <header class="fixed top-0 left-0 right-0 z-50" :class="`${navBgClass} ${navShadowClass} w-full`">
 	        <NavBarUserSection 
 	          avatar-class="ml-4 w-10 h-10 rounded-full object-cover aspect-square"
 	          color-mode-class=""
 	          search-class="w-full max-w-[80%]"
 	          :wrapperClass="`flex items-center justify-between p-4 w-full ${navBgClass}`"
 	        />
-	      </div>
-	      <div class="fixed bottom-0 left-0 right-0 z-50" :class="`${navBgClass} ${navShadowClass} w-full`">
+		  </header>
+	      <nav class="fixed bottom-0 left-0 right-0 z-50" :class="`${navBgClass} ${navShadowClass} w-full`">
 	        <div class="grid grid-cols-4 gap-2 p-4" :class="navBgClass">
-	          <div v-for="item in items" :key="item.label" class="flex flex-col items-center justify-center bg-blue-200 hover:bg-blue-300 text-blue-900">
-				<i :class="[item.icon, 'text-2xl mb-1 text-black dark:text-white']" />
-	            <span class="text-xs text-black" :class="navBgClass" >{{ item.label }}</span>
-	          </div>
+			  <template v-for="item in items" :key="item.label">
+				<RouterLink
+				  v-if="item.label.toLowerCase() !== 'places'"
+				  :to="{ name: (item.label || '').toLowerCase() }"
+				  class="flex flex-col items-center justify-center"
+				  style="text-decoration: none;"
+				  active-class="text-blue-600"
+				>
+				<i :class="[item.icon, 'text-2xl mb-1', $route.name === (item.label || '').toLowerCase() ? 'text-blue-600' : 'text-black dark:text-white']" />
+				  <span class="text-xs" :class="[$route.name === (item.label || '').toLowerCase() ? 'text-blue-600' : 'text-black', navBgClass]">{{ item.label }}</span>
+				</RouterLink>
+				<div
+				  v-else
+				  class="flex flex-col items-center justify-center opacity-50 cursor-allowed"
+				>
+				  <i :class="[item.icon, 'text-2xl mb-1 text-black dark:text-white']" />
+				  <span class="text-xs text-black" :class="navBgClass" >{{ item.label }}</span>
+				</div>
+			  </template>
 	        </div>
-	      </div>
+		  </nav>
 	    </div>
 </template>
