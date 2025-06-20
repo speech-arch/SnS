@@ -9,7 +9,7 @@ const navShadowClass = 'shadow-2xl dark:shadow-[0_-4px_24px_0_rgba(255,255,255,0
 
 <template>
 	<div v-if="isMobile" :class="navBgClass">
-	      <header class="fixed top-0 left-0 right-0 z-50" :class="`${navBgClass} ${navShadowClass} w-full`">
+	      <header class="fixed top-0 left-0 right-0 z-50 overflow-x-auto scrollbar-none" :class="`${navBgClass} ${navShadowClass} w-full`">
 	        <NavBarUserSection 
 	          avatar-class="ml-4 w-10 h-10 rounded-full object-cover aspect-square"
 	          color-mode-class=""

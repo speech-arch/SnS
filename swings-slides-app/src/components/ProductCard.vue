@@ -5,8 +5,7 @@
     </div>
     <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-6">
       <div class="flex flex-row md:flex-col justify-between items-start gap-2">
-        <ProductInfo :category="item.category" :name="item.name" :rating="item.rating" :layout="layout">
-        </ProductInfo>
+        <ProductInfo :category="item.category" :name="item.name" :rating="item.rating" :layout="layout"/>
       </div>
       <div class="flex flex-col md:items-end gap-8">
         <ProductActions :price="item.price" :outOfStock="item.inventoryStatus === 'OUTOFSTOCK'" :layout="layout" />

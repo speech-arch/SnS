@@ -1,5 +1,5 @@
 <template>
-  <Tag :value="status" :severity="getSeverity(status)" />
+  <Tag :value="status" :severity="getSeverity(status)" class="rounded-xl" />
 </template>
 
 <script setup lang="ts">

@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <main class="flex flex-col gap-2">
+  <main class="flex flex-col">
     <TestProduct />
     <ContentGrid/>
     <GoogleMap />
