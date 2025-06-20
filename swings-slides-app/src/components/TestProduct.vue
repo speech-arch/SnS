@@ -10,34 +10,22 @@
       :autoplayInterval="5000"
     >
       <template #item="slotProps">
-        <div
-          class=" border-surface-200 dark:border-surface-700 rounded-xl m-2 p-4 shadow-md transform scale-95 transition-transform duration-300"
-        >
+        <div class="border-surface-200 dark:border-surface-700 rounded-xl m-2 p-4 shadow-md transform scale-95 transition-transform duration-300">
           <div class="mb-4">
-            <div class="relative mx-auto">
-              <img
-                :src="'https://primefaces.org/cdn/primevue/images/product/' + slotProps.data.image"
-                :alt="slotProps.data.name"
-                class="w-full h-48 object-cover rounded-xl"
-              />
-              <Tag
-                :value="slotProps.data.inventoryStatus"
-                :severity="getSeverity(slotProps.data.inventoryStatus)"
-                class="absolute left-2 top-2 bg-white text-white dark:bg-white"
-              />
-            </div>
+            <ProductImage
+              :src="'https://primefaces.org/cdn/primevue/images/product/' + slotProps.data.image"
+              :alt="slotProps.data.name"
+              :status="slotProps.data.inventoryStatus"
+              imgStyle="width: 100%; height: 12rem; object-fit: cover; border-radius: 0.75rem;"
+            />
           </div>
           <div class="flex justify-between items-center">
-          <div class="mb-2 font-medium text-lg text-center">
-            {{ slotProps.data.name }}
-          </div>
-            <!-- <div class="font-semibold text-xl text-primary">
-              ${{ slotProps.data.price }}
-            </div> -->
-
+            <div class="mb-2 font-medium text-lg text-center">
+              {{ slotProps.data.name }}
+            </div>
             <span class="flex items-center gap-2" style="margin-top:1rem;">
-                <Button icon="pi pi-heart" severity="secondary" outlined />
-                <Button icon="pi pi-info-circle" title="info" outlined/>
+              <Button icon="pi pi-heart" severity="secondary" outlined />
+              <Button icon="pi pi-info-circle" title="info" outlined/>
             </span>
           </div>
         </div>
@@ -47,6 +35,7 @@
 </template>
 
 <script setup lang="ts">
+import ProductImage from './ProductImage.vue';
 const navBgClass = 'bg-white dark:bg-black dark:text-white';
 const products = ref([
   {
