@@ -7,6 +7,11 @@
           <div v-if="userLocationStore.isLocationLoading" class="absolute inset-0 flex items-center justify-center bg-black opacity-20">
             <MapLoader />
           </div>
+          <div v-else-if="!userLocation || !userLocation.coords" class="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div class="bg-white/80 dark:bg-black/80 rounded p-4 shadow text-center text-red-700 dark:text-red-300 text-sm font-semibold">
+              Unable to access your location. Showing default map view.
+            </div>
+          </div>
          </div>
         </template>
     </Card>
@@ -42,6 +47,7 @@ const filteredLocations = computed(() => {
 });
 
 const gmap = ref<any>(null);
+const DEFAULT_CENTER = { lat: 41.3851, lng: 2.1734 };
 
 const setupInitialMarkers = () => {
   if (userLocation.value && userLocation.value.coords) {
@@ -64,7 +70,7 @@ const loadGoogleMapsApi = async () => {
 };
 
 const createMapInstance = () => {
-  let center = { lat: 41.3851, lng: 2.1734 };
+  let center = DEFAULT_CENTER;
   if (userLocation.value && userLocation.value.coords) {
     center = {
       lat: userLocation.value.coords.latitude,
@@ -80,8 +86,22 @@ const createMapInstance = () => {
     streetViewControl: false,
     fullscreenControl: false,
   });
-  console.log('[GoogleMap] Map initialized:', mapInstance);
   return mapInstance;
+};
+
+const updateMapCenterAndMarkers = () => {
+  if (!gmap.value) return;
+  if (userLocation.value && userLocation.value.coords) {
+    setUserMarkerAndCenter(gmap.value, userMarker, userLocation.value.coords.latitude, userLocation.value.coords.longitude);
+  } else {
+    // No user location: center to default and remove user marker
+    gmap.value.setCenter(DEFAULT_CENTER);
+    if (userMarker.value) {
+      userMarker.value.setMap(null);
+      userMarker.value = null;
+    }
+  }
+  addLocationMarkers(gmap.value, locationMarkers, filteredLocations.value);
 };
 
 const initializeMap = async () => {
@@ -99,10 +119,10 @@ watch(filteredLocations, (newLocs) => {
 });
 
 watch(userLocation, (newLoc) => {
-  if (gmap.value && newLoc && newLoc.coords) {
-    setUserMarkerAndCenter(gmap.value, userMarker, newLoc.coords.latitude, newLoc.coords.longitude);
-  }
+  updateMapCenterAndMarkers();
 });
+
+// Optionally, show a message if user location fails
 </script>
 
 <style scoped>
