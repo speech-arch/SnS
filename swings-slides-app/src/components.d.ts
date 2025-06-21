@@ -33,6 +33,7 @@ declare module 'vue' {
     InputText: typeof import('primevue/inputtext')['default']
     Layout: typeof import('./components/ContentGrid.vue')['default']
     Logo: typeof import('./components/Logo.vue')['default']
+    MapLoader: typeof import('./components/MapLoader.vue')['default']
     Menubar: typeof import('primevue/menubar')['default']
     MobileNav: typeof import('./components/MobileNav.vue')['default']
     MobileNavigationBar: typeof import('./components/MobileNavigationBar.vue')['default']

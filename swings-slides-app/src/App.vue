@@ -9,6 +9,11 @@
 </template>
 
 <script setup>
+import { onMounted, onUnmounted, ref, provide } from 'vue';
+import { useUserLocationStore } from './stores/userLocation';
+
+const userLocationStore = useUserLocationStore();
+
 const items = ref([
   {
     label: 'Home',
@@ -34,6 +39,7 @@ function updateIsMobile() {
 }
 onMounted(() => {
   window.addEventListener('resize', updateIsMobile);
+  userLocationStore.fetchUserLocationFromIP();
 });
 onUnmounted(() => {
   window.removeEventListener('resize', updateIsMobile);

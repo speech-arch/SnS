@@ -20,6 +20,12 @@ declare const Button: DefineComponent;
 import ProductChips from './ProductChips.vue';
 import { ref, onMounted } from 'vue';
 
+type ChipData = {
+  label: string;
+  image: string;
+  removable?: boolean;
+};
+
 const props = defineProps<{
   price: number;
   outOfStock: boolean;
@@ -30,9 +36,6 @@ const reverse = props.layout === 'list';
 const wrapperClass = props.layout === 'list'
   ? 'flex flex-col md:items-end gap-8'
   : 'flex flex-col gap-6 mt-6';
-const priceClass = props.layout === 'list'
-  ? 'text-xl font-semibold'
-  : 'text-2xl font-semibold';
 const buttonWrapperClass = props.layout === 'list'
   ? 'flex flex-row-reverse md:flex-row gap-2'
   : 'flex gap-2';
@@ -46,8 +49,6 @@ const cartClass = props.layout === 'list'
   { label: 'Xuxue Feng', image: 'https://primefaces.org/cdn/primevue/images/avatar/xuxuefeng.png', removable: true },
 ];
 
-const showAll = ref(false);
-const displayedChips = computed(() => showAll.value ? chips : chips.slice(0, 2));
 
 const isMobile = ref(false);
 onMounted(() => {

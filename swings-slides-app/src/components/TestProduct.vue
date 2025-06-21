@@ -36,7 +36,6 @@
 
 <script setup lang="ts">
 import ProductImage from './ProductImage.vue';
-const navBgClass = 'bg-white dark:bg-black dark:text-white';
 const products = ref([
   {
     id: '1000',
