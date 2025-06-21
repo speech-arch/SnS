@@ -77,6 +77,7 @@ import DataView from 'primevue/dataview';
 import ProductCard from './ProductCard.vue';
 import SectionHeader from './SectionHeader.vue';
 import { RouterLink } from 'vue-router';
+import { useSearchStore } from '../stores/search';
 
 const sortKey = ref();
 const sortOrder = ref();
@@ -112,14 +113,27 @@ const products = ref([
   { id: '1011', code: 'a7', name: 'Pink Ball', description: 'Fun toy', image: 'pink-ball.jpg', price: 16, category: 'Toys', quantity: 5, inventoryStatus: 'Top', rating: 5 },
 ]);
 
+const searchStore = useSearchStore();
+
 const selectedCategories = ref<string[]>([]);
 const categoryOptions = computed(() => {
   const cats = Array.from(new Set(products.value.map(p => p.category)));
   return cats.map(c => ({ label: c, value: c }));
 });
 const filteredProducts = computed(() => {
-  if (!selectedCategories.value.length) return products.value;
-  return products.value.filter(p => selectedCategories.value.includes(p.category));
+  let result = products.value;
+  if (selectedCategories.value.length) {
+    result = result.filter(p => selectedCategories.value.includes(p.category));
+  }
+  if (searchStore.searchTerm.trim()) {
+    const term = searchStore.searchTerm.trim().toLowerCase();
+    result = result.filter(p =>
+      p.name.toLowerCase().includes(term) ||
+      p.description.toLowerCase().includes(term) ||
+      p.category.toLowerCase().includes(term)
+    );
+  }
+  return result;
 });
 const itemsPerPage = ref(6);
 const page = ref(1);

@@ -21,15 +21,15 @@ const items = ref([
   },
   {
     label: 'Parks',
-    icon: 'pi pi-tree'
+    icon: 'pi pi-image'
   },
-    {
+  {
     label: 'Events',
-    icon: 'pi pi-tree'
+    icon: 'pi pi-calendar'
   },
-      {
+  {
     label: 'places',
-    icon: 'pi pi-globe'
+    icon: 'pi pi-map-marker'
   },
 ]);
 

@@ -19,8 +19,11 @@
 
 <script setup lang="ts">
 import { useUserLocationStore } from '../stores/userLocation';
-import { computed, ref, watch, onMounted } from 'vue';
+import { computed, ref, watch, onMounted, toRefs } from 'vue';
 import { getDistanceKm, setUserMarkerAndCenter, addLocationMarkers } from '../composables/useMapUtils';
+import { useSearchStore } from '../stores/search';
+
+const props = defineProps<{ filteredProducts?: any[] }>();
 
 const locations = [
   { id: '1', lat: 41.6176, lng: 0.6200, title: 'Lleida City Park' },
@@ -33,6 +36,7 @@ const locations = [
 const map = ref<HTMLElement | null>(null);
 const userLocationStore = useUserLocationStore();
 const { userLocation } = storeToRefs(userLocationStore);
+const searchStore = useSearchStore();
 
 const apiKey = 'AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg' // Dev/Test only!
 
@@ -41,6 +45,13 @@ const locationMarkers = ref<any[]>([]);
 
 
 const filteredLocations = computed(() => {
+  // If filteredProducts is passed as a prop, use it to filter locations
+  if (props.filteredProducts && props.filteredProducts.length > 0) {
+    // Only show locations that match filtered products by id
+    const ids = props.filteredProducts.map(p => String(p.id));
+    return locations.filter(loc => ids.includes(String(loc.id)));
+  }
+  // Fallback: filter by user location (legacy behavior)
   if (!userLocation.value || !userLocation.value.coords) return [];
   const { latitude, longitude } = userLocation.value.coords;
   return locations.filter(loc => getDistanceKm(latitude, longitude, loc.lat, loc.lng) <= 30);
