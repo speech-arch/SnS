@@ -6,7 +6,6 @@
           :sortOrder="sortOrder"
           :sortField="sortField"
           :filterValue="selectedCategories"
-          @filter="onDataViewFilter"
         >
             <template #header>
                 <div class="flex flex-wrap gap-4 items-center justify-between w-full">
@@ -28,7 +27,7 @@
             <template #list="slotProps">
                 <div class="flex flex-col">
                     <div v-for="(item, index) in slotProps.items" :key="index">
-                        <ProductCard :item="item" :layout="'list'" :index="index" />
+                        <ProductCard :item="item" :layout="'list'" :index="index" @scroll-to-marker="scrollToMapMarker" />
                     </div>
                 </div>
             </template>
@@ -36,7 +35,7 @@
             <template #grid="slotProps">
                 <div class="grid grid-cols-12 gap-4">
                     <div v-for="(item, index) in slotProps.items" :key="index" class="col-span-12 sm:col-span-6 md:col-span-4 xl:col-span-6 p-2">
-                        <ProductCard :item="item" :layout="'grid'" :index="index" />
+                        <ProductCard :item="item" :layout="'grid'" :index="index" @scroll-to-marker="scrollToMapMarker" />
                     </div>
                 </div>
             </template>
@@ -78,7 +77,6 @@ import DataView from 'primevue/dataview';
 import ProductCard from './ProductCard.vue';
 import SectionHeader from './SectionHeader.vue';
 import { RouterLink } from 'vue-router';
-import MultiSelect from 'primevue/multiselect';
 
 const sortKey = ref();
 const sortOrder = ref();
@@ -91,21 +89,20 @@ const layout = ref('grid');
 const options = ref(['list', 'grid']);
 const products = ref([
   {
-    id: '1000', code: 'f230fh0g3', name: 'Bamboo Watch', description: 'Product Description', image: 'bamboo-watch.jpg', price: 65, category: 'Accessories', quantity: 24, inventoryStatus: 'Top', rating: 5
+    id: '1', code: 'f230fh0g3', name: 'Bamboo Watch', description: 'Product Description', image: 'bamboo-watch.jpg', price: 65, category: 'Accessories', quantity: 24, inventoryStatus: 'Top', rating: 5
   },
   {
-    id: '1001', code: 'nvklal433', name: 'Black Watch', description: 'Product Description', image: 'black-watch.jpg', price: 72, category: 'Accessories', quantity: 61, inventoryStatus: 'Top', rating: 4
+    id: '5', code: 'nvklal433', name: 'Black Watch', description: 'Product Description', image: 'black-watch.jpg', price: 72, category: 'Accessories', quantity: 61, inventoryStatus: 'Top', rating: 4
   },
   {
-    id: '1002', code: 'zz21cz3c1', name: 'Blue Band', description: 'Product Description', image: 'blue-band.jpg', price: 79, category: 'Fitness', quantity: 2, inventoryStatus: 'Top', rating: 3
+    id: '2', code: 'zz21cz3c1', name: 'Blue Band', description: 'Product Description', image: 'blue-band.jpg', price: 79, category: 'Fitness', quantity: 2, inventoryStatus: 'Top', rating: 3
   },
   {
-    id: '1003', code: '244wgerg2', name: 'Blue T-Shirt', description: 'Product Description', image: 'blue-t-shirt.jpg', price: 29, category: 'Clothing', quantity: 25, inventoryStatus: 'Top', rating: 5
+    id: '3', code: '244wgerg2', name: 'Blue T-Shirt', description: 'Product Description', image: 'blue-t-shirt.jpg', price: 29, category: 'Clothing', quantity: 25, inventoryStatus: 'Top', rating: 5
   },
   {
-    id: '1004', code: 'h456wer53', name: 'Bracelet', description: 'Product Description', image: 'bracelet.jpg', price: 15, category: 'Accessories', quantity: 73, inventoryStatus: 'Top', rating: 4
+    id: '4', code: 'h456wer53', name: 'Bracelet', description: 'Product Description', image: 'bracelet.jpg', price: 15, category: 'Accessories', quantity: 73, inventoryStatus: 'Top', rating: 4
   },
-  // Extra products for pagination test
   { id: '1005', code: 'a1', name: 'Red Ball', description: 'Fun toy', image: 'red-ball.jpg', price: 10, category: 'Toys', quantity: 10, inventoryStatus: 'Top', rating: 4 },
   { id: '1006', code: 'a2', name: 'Green Ball', description: 'Fun toy', image: 'green-ball.jpg', price: 12, category: 'Toys', quantity: 8, inventoryStatus: 'Top', rating: 3 },
   { id: '1007', code: 'a3', name: 'Yellow Ball', description: 'Fun toy', image: 'yellow-ball.jpg', price: 11, category: 'Toys', quantity: 12, inventoryStatus: 'Top', rating: 5 },
@@ -156,8 +153,15 @@ const onSortChange = (event: { value: { value: any; }; }) => {
     }
 };
 
-const onDataViewFilter = (event: any) => {
-  // This handler is required for DataView's filter event, but we already filter via computed.
-  // You can add logic here if you want to sync DataView's internal filter state.
-};
+
+function scrollToMapMarker(productId: string) {
+  const mapDiv = document.querySelector('[ref=map]') || document.getElementById('map');
+  console.log('scrollToMapMarker', productId, mapDiv);
+  if (mapDiv) mapDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(() => {
+    if (window.scrollToMapMarker) {
+      window.scrollToMapMarker(productId);
+    }
+  }, 800); 
+}
 </script>

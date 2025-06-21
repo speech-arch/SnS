@@ -38,7 +38,7 @@
 import ProductImage from './ProductImage.vue';
 const products = ref([
   {
-    id: '1000',
+    id: '4',
     code: 'f230fh0g3',
     name: 'Bamboo Watch',
     description: 'Product Description',
@@ -50,7 +50,7 @@ const products = ref([
     rating: 5
   },
   {
-    id: '1001',
+    id: '0',
     code: 'nvklal433',
     name: 'Black Watch',
     description: 'Product Description',
@@ -62,7 +62,7 @@ const products = ref([
     rating: 4
   },
   {
-    id: '1002',
+    id: '1',
     code: 'zz21cz3c1',
     name: 'Blue Band',
     description: 'Product Description',
@@ -74,7 +74,7 @@ const products = ref([
     rating: 3
   },
   {
-    id: '1003',
+    id: '3',
     code: '244wgerg2',
     name: 'Blue T-Shirt',
     description: 'Product Description',
@@ -86,7 +86,7 @@ const products = ref([
     rating: 5
   },
   {
-    id: '1004',
+    id: '5',
     code: 'h456wer53',
     name: 'Bracelet',
     description: 'Product Description',

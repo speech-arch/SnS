@@ -23,11 +23,11 @@ import { computed, ref, watch, onMounted } from 'vue';
 import { getDistanceKm, setUserMarkerAndCenter, addLocationMarkers } from '../composables/useMapUtils';
 
 const locations = [
-  { lat: 41.6176, lng: 0.6200, title: 'Lleida City Park' },
-  { lat: 41.6167, lng: 0.6222, title: 'Lleida Playground' },
-  { lat: 41.6185, lng: 0.6290, title: 'Lleida Riverside' },
-  { lat: 41.6200, lng: 0.6300, title: 'Lleida Gardens' },
-  { lat: 41.6100, lng: 0.6400, title: 'Lleida Sports Area' },
+  { id: '1', lat: 41.6176, lng: 0.6200, title: 'Lleida City Park' },
+  { id: '5', lat: 41.6167, lng: 0.6222, title: 'Lleida Playground' },
+  { id: '2', lat: 41.6185, lng: 0.6290, title: 'Lleida Riverside' },
+  { id: '3', lat: 41.6200, lng: 0.6300, title: 'Lleida Gardens' },
+  { id: '4', lat: 41.6100, lng: 0.6400, title: 'Lleida Sports Area' },
 ];
 
 const map = ref<HTMLElement | null>(null);
@@ -94,15 +94,41 @@ const updateMapCenterAndMarkers = () => {
   if (userLocation.value && userLocation.value.coords) {
     setUserMarkerAndCenter(gmap.value, userMarker, userLocation.value.coords.latitude, userLocation.value.coords.longitude);
   } else {
-    // No user location: center to default and remove user marker
     gmap.value.setCenter(DEFAULT_CENTER);
     if (userMarker.value) {
       userMarker.value.setMap(null);
       userMarker.value = null;
     }
   }
-  addLocationMarkers(gmap.value, locationMarkers, filteredLocations.value);
+  addLocationMarkersWithClick(gmap.value, locationMarkers, filteredLocations.value, scrollToProduct);
 };
+
+function scrollToProduct(productIdOrIndex: string | number) {
+  const el = document.getElementById(`product-card-${productIdOrIndex}`);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    el.classList.add('ring-2', 'ring-blue-400');
+    setTimeout(() => el.classList.remove('ring-2', 'ring-blue-400'), 1200);
+  }
+}
+
+function addLocationMarkersWithClick(map: any, markersRef: any, locations: any[], onMarkerClick: (id: string | number) => void) {
+  if (markersRef.value && Array.isArray(markersRef.value)) {
+    markersRef.value.forEach((m: any) => m.setMap(null));
+  }
+  markersRef.value = [];
+  locations.forEach((loc, idx) => {
+    const marker = new window.google.maps.Marker({
+      position: { lat: loc.lat, lng: loc.lng },
+      map,
+      title: loc.title,
+    });
+    marker.addListener('click', () => {
+      onMarkerClick((loc as any).id ?? idx);
+    });
+    markersRef.value.push(marker);
+  });
+}
 
 const initializeMap = async () => {
   await loadGoogleMapsApi();
@@ -115,24 +141,66 @@ onMounted(() => {
 });
 
 watch(filteredLocations, (newLocs) => {
-  addLocationMarkers(gmap.value, locationMarkers, newLocs);
+  addLocationMarkersWithClick(gmap.value, locationMarkers, newLocs, scrollToProduct);
 });
 
 watch(userLocation, (newLoc) => {
   updateMapCenterAndMarkers();
 });
 
-// Optionally, show a message if user location fails
+window.scrollToMapMarker = function(productId: string) {
+  const mapDiv = map.value as HTMLElement | null;
+  if (mapDiv) {
+    mapDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  if (!gmap.value || !locationMarkers.value) return;
+  const idx = filteredLocations.value.findIndex((loc: any) => String(loc.id) === String(productId));
+  if (idx !== -1 && locationMarkers.value[idx]) {
+    const marker = locationMarkers.value[idx];
+    gmap.value.panTo(marker.getPosition());
+    gmap.value.setZoom(14);
+    highlightMarker(productId);
+    if (marker.setAnimation) {
+      marker.setAnimation(window.google.maps.Animation.BOUNCE);
+      setTimeout(() => marker.setAnimation(null), 1200);
+    }
+    console.log('[GoogleMap] Panned to marker for product:', productId);
+  } else {
+    console.warn('[GoogleMap] No marker found for product:', productId);
+  }
+}
+
+function highlightMarker(productId: string) {
+  if (!gmap.value || !locationMarkers.value) return;
+  const idx = filteredLocations.value.findIndex((loc: any) => String(loc.id) === String(productId));
+  if (idx !== -1 && locationMarkers.value[idx]) {
+    const marker = locationMarkers.value[idx];
+    marker.setIcon({
+      url: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png',
+      scaledSize: new window.google.maps.Size(40, 40)
+    });
+    if (!window._markerInfoWindow) {
+      window._markerInfoWindow = new window.google.maps.InfoWindow();
+    }
+    window._markerInfoWindow.setContent(`<b>${filteredLocations.value[idx].title}</b>`);
+    window._markerInfoWindow.open(gmap.value, marker);
+    setTimeout(() => {
+      marker.setIcon(null);
+      window._markerInfoWindow.close();
+    }, 2000);
+  }
+}
 </script>
 
 <style scoped>
 </style>
 
-<!-- Add this global type declaration to fix TypeScript errors about 'google' not existing on type Window -->
 <script lang="ts">
 declare global {
   interface Window {
     google: any;
+    scrollToMapMarker?: (productId: string) => void;
+    _markerInfoWindow?: any;
   }
 }
 </script>

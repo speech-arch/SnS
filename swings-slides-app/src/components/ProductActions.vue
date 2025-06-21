@@ -4,6 +4,13 @@
     <div :class="buttonWrapperClass">
       <Button icon="pi pi-heart" outlined v-if="reverse" />
       <Button 
+        icon="pi pi-map-marker"
+        label="Map"
+        @click="$emit('scroll-to-marker')"
+        outlined
+        severity="info"
+      />
+      <Button 
         icon="pi pi-eye" 
         label="View" 
         :disabled="outOfStock" 

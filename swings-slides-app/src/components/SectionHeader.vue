@@ -2,7 +2,6 @@
   <div class="flex flex-wrap sm:flex-nowrap justify-between items-center w-full overflow-x-auto scrollbar-none" :class="customClass">
     <h2 class="text-2xl font-bold mb-4 truncate max-w-[50vw] sm:max-w-xs">{{ title }}</h2>
     <div class="flex justify-end items-center gap-2 min-w-0">
-      <!-- Desktop: Show dropdowns -->
       <Select v-if="!isMobile" v-model="sortKeyProxy" :options="sortOptions" optionLabel="label" placeholder="Sort By Price" @change="onSortChange" class="min-w-0 max-w-[40vw] sm:max-w-xs truncate" />
       <MultiSelect v-if="!isMobile && categoryOptions && selectedCategories !== undefined"
         v-model="categoryProxy"
@@ -13,7 +12,6 @@
         class="w-full max-w-xs"
         display="chip"
       />
-      <!-- Mobile: Show icons -->
       <Button v-if="isMobile" icon="pi pi-filter" class="sm:hidden" @click="showFilter = true" aria-label="Filter" outlined size="small" />
       <Button v-if="isMobile" icon="pi pi-sort-alt" class="sm:hidden" @click="showSort = true" aria-label="Sort" outlined size="small" />
       <SelectButton v-model="layoutProxy" :options="layoutOptions" :allowEmpty="false">
@@ -22,7 +20,6 @@
         </template>
       </SelectButton>
     </div>
-    <!-- Mobile Filter Dialog -->
     <Dialog v-model:visible="showFilter" modal header="Filter by Category" class="w-11/12 max-w-xs">
       <MultiSelect
         v-model="categoryProxy"
@@ -34,7 +31,6 @@
         display="chip"
       />
     </Dialog>
-    <!-- Mobile Sort Dialog -->
     <Dialog v-model:visible="showSort" modal header="Sort By" class="w-11/12 max-w-xs">
       <Select v-model="sortKeyProxy" :options="sortOptions" optionLabel="label" placeholder="Sort By Price" @change="onSortChange" class="w-full" />
     </Dialog>
