@@ -25,7 +25,7 @@ const router = createRouter({
     {
       path: '/events/:id',
       name: 'event-detail',
-      component: () => import('../views/EventsView.vue'),
+      component: () => import('../views/EventDetailView.vue'),
       props: true,
     },
     {
@@ -36,7 +36,7 @@ const router = createRouter({
     {
       path: '/parks/:id',
       name: 'park-detail',
-      component: () => import('../views/ParksView.vue'),
+      component: () => import('../views/ParkDetailView.vue'),
       props: true,
     },
     {

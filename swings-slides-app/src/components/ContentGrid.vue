@@ -1,5 +1,12 @@
 <template>
+    <ScrollTop 
+      target="window" 
+      :threshold="100" 
+      icon="pi pi-arrow-up" 
+      :buttonProps="{ severity: 'contrast', raised: true, rounded: true , size: 'small', style: 'margin-bottom: 2rem;' }"
+    />
     <div class="card border-surface-200 dark:border-surface-700 rounded-xl m-2 p-4 shadow-md transform scale-95 transition-transform duration-300">
+      
         <DataView
           :value="paginatedProducts"
           :layout="layout"
@@ -77,6 +84,7 @@ import type { ProductFilterFn, ProductSortFn } from '../composables/useProductGr
 import { useSearchStore } from '../stores/search';
 import { useSearchFilter } from '../composables/useSearchFilter';
 import { storeToRefs } from 'pinia';
+import ScrollTop from 'primevue/scrolltop';
 
 const customFilter: ProductFilterFn = (products, selectedCategories) => {
   // Custom filter logic (can be replaced or extended)
