@@ -9,14 +9,14 @@
         :label="showAll ? (isMobile ? '' : 'Less') : (isMobile ? '' : 'More')"
         :icon="showAll ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
         raised severity="help"
-        @click="showAll = !showAll"
+        @click="toggleShowAll"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { useProductChips } from '../composables/useProductChips';
 
 interface ChipData {
   label: string;
@@ -28,14 +28,5 @@ const props = defineProps<{
   chips: ChipData[];
 }>();
 
-const showAll = ref(false);
-const displayedChips = computed(() => showAll.value ? props.chips : props.chips.slice(0, 2));
-
-const isMobile = ref(false);
-onMounted(() => {
-  isMobile.value = window.innerWidth < 640;
-  window.addEventListener('resize', () => {
-    isMobile.value = window.innerWidth < 640;
-  });
-});
+const { showAll, displayedChips, isMobile, toggleShowAll } = useProductChips(props);
 </script>

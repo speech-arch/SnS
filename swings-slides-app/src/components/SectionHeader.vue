@@ -38,20 +38,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { useSectionHeader } from '../composables/useSectionHeader';
 import MultiSelect from 'primevue/multiselect';
 import Select from 'primevue/select';
 import SelectButton from 'primevue/selectbutton';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 
-interface SortOption {
-  label: string;
-  value: string | number;
-}
-
 const emit = defineEmits<{
-  (e: 'update:sortKey', value: string | number | SortOption | null): void;
+  (e: 'update:sortKey', value: string | number | { label: string; value: any } | null): void;
   (e: 'update:layout', value: string): void;
   (e: 'sort-change', event: any): void;
   (e: 'update:selectedCategories', value: string[]): void;
@@ -59,8 +54,8 @@ const emit = defineEmits<{
 
 const props = defineProps<{
   title: string;
-  sortKey?: string | number | SortOption | null;
-  sortOptions?: SortOption[];
+  sortKey?: string | number | { label: string; value: any } | null;
+  sortOptions?: { label: string; value: any }[];
   layout?: string;
   layoutOptions?: string[];
   customClass?: string;
@@ -68,35 +63,13 @@ const props = defineProps<{
   categoryOptions?: { label: string; value: string }[];
 }>();
 
-const sortKeyProxy = computed({
-  get: () => props.sortKey ?? null,
-  set: (val: string | number | SortOption | null) => emit('update:sortKey', val)
-});
-const layoutProxy = computed({
-  get: () => props.layout ?? 'grid',
-  set: (val: string) => emit('update:layout', val)
-});
-const categoryProxy = computed({
-  get: () => props.selectedCategories ?? [],
-  set: (val: string[]) => emit('update:selectedCategories', val)
-});
-const onSortChange = (event: any) => {
-  emit('sort-change', event);
-};
-
-// Responsive: detect mobile
-const isMobile = ref(false);
-const checkMobile = () => {
-  isMobile.value = window.innerWidth < 640;
-};
-onMounted(() => {
-  checkMobile();
-  window.addEventListener('resize', checkMobile);
-});
-onUnmounted(() => {
-  window.removeEventListener('resize', checkMobile);
-});
-
-const showFilter = ref(false);
-const showSort = ref(false);
+const {
+  sortKeyProxy,
+  layoutProxy,
+  categoryProxy,
+  onSortChange,
+  isMobile,
+  showFilter,
+  showSort
+} = useSectionHeader(props, emit);
 </script>

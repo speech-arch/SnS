@@ -22,16 +22,9 @@
 </template>
 
 <script setup lang="ts">
+import { useProductActions } from '../composables/useProductActions';
 import type { DefineComponent } from 'vue';
 declare const Button: DefineComponent;
-import ProductChips from './ProductChips.vue';
-import { ref, onMounted } from 'vue';
-
-type ChipData = {
-  label: string;
-  image: string;
-  removable?: boolean;
-};
 
 const props = defineProps<{
   price: number;
@@ -39,29 +32,6 @@ const props = defineProps<{
   layout?: string;
 }>();
 
-const reverse = props.layout === 'list';
-const wrapperClass = props.layout === 'list'
-  ? 'flex flex-col md:items-end gap-8'
-  : 'flex flex-col gap-6 mt-6';
-const buttonWrapperClass = props.layout === 'list'
-  ? 'flex flex-row-reverse md:flex-row gap-2'
-  : 'flex gap-2';
-const cartClass = props.layout === 'list'
-  ? 'flex-auto md:flex-initial whitespace-nowrap'
-  : 'flex-auto whitespace-nowrap';
-  const chips: ChipData[] = [
-  { label: 'Amy', image: 'https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png' },
-  { label: 'Asiya', image: 'https://primefaces.org/cdn/primevue/images/avatar/asiyajavayant.png' },
-  { label: 'Onyama', image: 'https://primefaces.org/cdn/primevue/images/avatar/onyamalimba.png' },
-  { label: 'Xuxue Feng', image: 'https://primefaces.org/cdn/primevue/images/avatar/xuxuefeng.png', removable: true },
-];
-
-
-const isMobile = ref(false);
-onMounted(() => {
-  isMobile.value = window.innerWidth < 640;
-  window.addEventListener('resize', () => {
-    isMobile.value = window.innerWidth < 640;
-  });
-});
+const emit = defineEmits(['scroll-to-marker']);
+const { reverse, wrapperClass, buttonWrapperClass, cartClass, chips, } = useProductActions(props);
 </script>

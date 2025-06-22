@@ -72,22 +72,37 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import DataView from 'primevue/dataview';
-import ProductCard from './ProductCard.vue';
-import SectionHeader from './SectionHeader.vue';
-import { RouterLink } from 'vue-router';
+import { useProductGrid } from '../composables/useProductGrid';
+import type { ProductFilterFn, ProductSortFn } from '../composables/useProductGrid';
 import { useSearchStore } from '../stores/search';
+import { useSearchFilter } from '../composables/useSearchFilter';
+import { storeToRefs } from 'pinia';
 
-const sortKey = ref();
-const sortOrder = ref();
-const sortField = ref();
-const sortOptions = ref([
-    {label: 'Price High to Low', value: '!price'},
-    {label: 'Price Low to High', value: 'price'},
-]);
-const layout = ref('grid');
-const options = ref(['list', 'grid']);
+const customFilter: ProductFilterFn = (products, selectedCategories) => {
+  // Custom filter logic (can be replaced or extended)
+  let result = products;
+  if (selectedCategories.length) {
+    result = result.filter(p => selectedCategories.includes(p.category));
+  }
+  // Add more custom filtering if needed
+  return result;
+};
+
+const customSort: ProductSortFn = (products, sortKey, sortOrder, sortField) => {
+  // Custom sort logic (can be replaced or extended)
+  if (!sortField) return products;
+  return [...products].sort((a, b) => {
+    if (sortOrder === -1) {
+      return b[sortField] - a[sortField];
+    } else {
+      return a[sortField] - b[sortField];
+    }
+  });
+};
+
+const searchStore = useSearchStore();
+const { searchTerm } = storeToRefs(searchStore);
+
 const products = ref([
   {
     id: '1', code: 'f230fh0g3', name: 'Bamboo Watch', description: 'Product Description', image: 'bamboo-watch.jpg', price: 65, category: 'Accessories', quantity: 24, inventoryStatus: 'Top', rating: 5
@@ -113,69 +128,33 @@ const products = ref([
   { id: '1011', code: 'a7', name: 'Pink Ball', description: 'Fun toy', image: 'pink-ball.jpg', price: 16, category: 'Toys', quantity: 5, inventoryStatus: 'Top', rating: 5 },
 ]);
 
-const searchStore = useSearchStore();
+// Use search filter composable to filter products by search term
+const { filtered: searchFilteredProducts } = useSearchFilter(products, searchTerm, ['name', 'description', 'category']);
 
-const selectedCategories = ref<string[]>([]);
-const categoryOptions = computed(() => {
-  const cats = Array.from(new Set(products.value.map(p => p.category)));
-  return cats.map(c => ({ label: c, value: c }));
-});
-const filteredProducts = computed(() => {
-  let result = products.value;
-  if (selectedCategories.value.length) {
-    result = result.filter(p => selectedCategories.value.includes(p.category));
-  }
-  if (searchStore.searchTerm.trim()) {
-    const term = searchStore.searchTerm.trim().toLowerCase();
-    result = result.filter(p =>
-      p.name.toLowerCase().includes(term) ||
-      p.description.toLowerCase().includes(term) ||
-      p.category.toLowerCase().includes(term)
-    );
-  }
-  return result;
-});
-const itemsPerPage = ref(6);
-const page = ref(1);
-const totalPages = computed(() => Math.ceil(filteredProducts.value.length / itemsPerPage.value));
-const paginatedProducts = computed(() => {
-  const start = (page.value - 1) * itemsPerPage.value;
-  return filteredProducts.value.slice(start, start + itemsPerPage.value);
-});
-const nextPage = () => {
-  if (page.value < totalPages.value) {
-    page.value++;
-  } 
-};
-const prevPage = () => {
-  if (page.value > 1) page.value--;
-};
-
-const onSortChange = (event: { value: { value: any; }; }) => {
-    const value = event.value.value;
-    const sortValue = event.value;
-
-    if (value.indexOf('!') === 0) {
-        sortOrder.value = -1;
-        sortField.value = value.substring(1, value.length);
-        sortKey.value = sortValue;
-    }
-    else {
-        sortOrder.value = 1;
-        sortField.value = value;
-        sortKey.value = sortValue;
-    }
-};
-
+const {
+  selectedCategories,
+  sortKey,
+  sortOrder,
+  sortField,
+  sortOptions,
+  layout,
+  options,
+  page,
+  categoryOptions,
+  totalPages,
+  paginatedProducts,
+  nextPage,
+  prevPage,
+  onSortChange,
+} = useProductGrid(searchFilteredProducts, 6, customFilter, customSort);
 
 function scrollToMapMarker(productId: string) {
   const mapDiv = document.querySelector('[ref=map]') || document.getElementById('map');
-  console.log('scrollToMapMarker', productId, mapDiv);
   if (mapDiv) mapDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
   setTimeout(() => {
-    if (window.scrollToMapMarker) {
-      window.scrollToMapMarker(productId);
+    if ((window as any).scrollToMapMarker) {
+      (window as any).scrollToMapMarker(productId);
     }
-  }, 800); 
+  }, 800);
 }
 </script>

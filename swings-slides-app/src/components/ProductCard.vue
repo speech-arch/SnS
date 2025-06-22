@@ -30,6 +30,8 @@
 </template>
 
 <script setup lang="ts">
+import { useProductCard } from '../composables/useProductCard';
+
 interface Product {
   id: string;
   code: string;
@@ -48,4 +50,7 @@ const props = defineProps<{
   layout?: string;
   index?: number;
 }>();
+
+const emit = defineEmits(['scroll-to-marker']);
+useProductCard(props, emit);
 </script>

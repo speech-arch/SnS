@@ -25,6 +25,7 @@
 
 <script setup lang="ts">
 import ProductChips from './ProductChips.vue';
+import { useProductInfo } from '../composables/useProductInfo';
 
 const props = defineProps<{
   category: string;
@@ -33,18 +34,5 @@ const props = defineProps<{
   layout?: string;
 }>();
 
-interface ChipData {
-  label: string;
-  image: string;
-  removable?: boolean;
-}
-const wrapperClass = props.layout === 'list'
-  ? 'flex flex-col md:items-end gap-8'
-  : 'flex flex-col gap-6 mt-6';
-const chips: ChipData[] = [
-  { label: 'Amy', image: 'https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png' },
-  { label: 'Asiya', image: 'https://primefaces.org/cdn/primevue/images/avatar/asiyajavayant.png' },
-  { label: 'Onyama', image: 'https://primefaces.org/cdn/primevue/images/avatar/onyamalimba.png' },
-  { label: 'Xuxue Feng', image: 'https://primefaces.org/cdn/primevue/images/avatar/xuxuefeng.png', removable: true },
-];
+const { wrapperClass, chips } = useProductInfo(props);
 </script>
