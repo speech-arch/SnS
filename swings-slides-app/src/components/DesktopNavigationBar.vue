@@ -5,7 +5,7 @@ const isMobile = inject('isMobile');
 const items = inject('items');
 const userLocationStore = useUserLocationStore();
 
-function fetchLocationFromIP() {
+const fetchLocationFromIP = () => {
   userLocationStore.fetchUserLocationWithWatch();
 }
 </script>

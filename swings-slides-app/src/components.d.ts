@@ -56,6 +56,8 @@ declare module 'vue' {
     MobileNavigationBar: typeof import('./components/MobileNavigationBar.vue')['default']
     NavBarUserSection: typeof import('./components/NavBarUserSection.vue')['default']
     NavigationBar: typeof import('./components/NavigationBar.vue')['default']
+    NewCard: typeof import('./components/NewCard.vue')['default']
+    ParkArchiveGrid: typeof import('./components/ParkArchiveGrid.vue')['default']
     ParkInfoPanel: typeof import('./components/ParkInfoPanel.vue')['default']
     PrimeVueExample: typeof import('./components/PrimeVueExample.vue')['default']
     Procard: typeof import('./components/Procard.vue')['default']

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import TabView from 'primevue/tabview';
+import TabPanel from 'primevue/tabpanel';
+
 const products = ref([
   {
     id: '4',
@@ -87,10 +90,16 @@ const responsiveOptions = ref([
 </script>
 
 <template>
-  <main class="flex flex-col">
-    <MainCarousel :products="products" :responsiveOptions="responsiveOptions" /> 
-    <ContentGrid viewMoreRoute="/parks"/>
-    <GoogleMap />
-    <ContentGrid/>
-  </main>
+  <section class="flex flex-col">
+    <MainCarousel :products="products" :responsiveOptions="responsiveOptions" />
+    <TabView>
+      <TabPanel header="Parks" :value="'parks'">
+            <ContentGrid viewMoreRoute="/parks"/>
+      </TabPanel>
+      <TabPanel header="Events" :value="'events'">
+        <ContentGrid viewMoreRoute="/events" :title="'Explore Events'"/>
+      </TabPanel>
+    </TabView>
+      <GoogleMap />
+  </section>
 </template>
