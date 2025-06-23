@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { useProductChips } from '../composables/useProductChips';
+import { useProductChips } from '../composables/useChips';
 
 interface ChipData {
   label: string;

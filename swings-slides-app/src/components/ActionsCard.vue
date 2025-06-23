@@ -1,6 +1,6 @@
 <template>
   <div :class="wrapperClass">
-    <ProductChips :chips="chips" />
+    <ChipsCard :chips="chips" />
     <div :class="buttonWrapperClass">
       <Button icon="pi pi-heart" outlined v-if="reverse" />
       <Button 
@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { useProductActions } from '../composables/useProductActions';
+import { useProductActions } from '../composables/useActions';
 import type { DefineComponent } from 'vue';
 declare const Button: DefineComponent;
 
