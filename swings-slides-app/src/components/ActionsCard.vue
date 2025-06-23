@@ -1,7 +1,7 @@
 <template>
   <div :class="wrapperClass">
-    <ChipsCard :chips="chips" />
-    <div :class="buttonWrapperClass">
+    <ChipsCard :chips="chips" :title="title" :chipsAreaWrapperClass="chipsAreaWrapperClass" :show-toggle-button="showToggleButton"/>
+    <div v-if="props.showButtons !== false" :class="buttonWrapperClass">
       <Button icon="pi pi-heart" outlined v-if="reverse" />
       <Button 
         icon="pi pi-map-marker"
@@ -31,8 +31,15 @@ const props = defineProps<{
   price: number;
   outOfStock: boolean;
   layout?: string;
+  chipsFn?: () => any[];
+  chipsAreaWrapperClass?: string;
+  title?: string;
+  showButtons?: boolean;
+  showToggleButton?: boolean;
 }>();
 
 const emit = defineEmits(['scroll-to-marker', 'go-to-detail']);
-const { reverse, wrapperClass, buttonWrapperClass, cartClass, chips, } = useProductActions(props);
+const { reverse, wrapperClass, buttonWrapperClass, cartClass, chips: defaultChips } = useProductActions(props);
+
+const chips = props.chipsFn ? props.chipsFn() : defaultChips;
 </script>

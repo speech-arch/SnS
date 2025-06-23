@@ -89,7 +89,7 @@ const responsiveOptions = ref([
 <template>
   <main class="flex flex-col">
     <MainCarousel :products="products" :responsiveOptions="responsiveOptions" /> 
-    <ContentGrid/>
+    <ContentGrid viewMoreRoute="/parks"/>
     <GoogleMap />
     <ContentGrid/>
   </main>

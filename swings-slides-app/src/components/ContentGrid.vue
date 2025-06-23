@@ -60,7 +60,7 @@
             />
             <RouterLink
               v-else
-              to="/events"
+              :to="viewMoreRoute || '/events'"
               custom
               v-slot="{ navigate, href }"
             >
@@ -140,4 +140,6 @@ function scrollToMapMarker(productId: string) {
 function goToDetail(parkId: any) {
   router.push({ name: 'park-detail', params: { id: parkId } });
 }
+
+defineProps<{ viewMoreRoute?: string }>();
 </script>
