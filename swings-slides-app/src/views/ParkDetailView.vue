@@ -87,7 +87,7 @@
 </template>
 
 <script setup>
-
+import Card from 'primevue/card';
 const images = ref([
   { itemImageSrc: 'https://via.placeholder.com/800x400?text=Central+Park+1', thumbnailImageSrc: 'https://via.placeholder.com/800x400?text=Central+Park+1', alt: 'Central Park 1' },
   { itemImageSrc: 'https://via.placeholder.com/800x400?text=Central+Park+2', thumbnailImageSrc: 'https://via.placeholder.com/800x400?text=Central+Park+2', alt: 'Central Park 2' },

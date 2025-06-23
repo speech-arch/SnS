@@ -22,7 +22,7 @@ import { useUserLocationStore } from '../stores/userLocation';
 import { computed, ref, watch, onMounted, toRefs } from 'vue';
 import { getDistanceKm, setUserMarkerAndCenter, addLocationMarkers } from '../composables/useMapUtils';
 import { useMapWindowEvents } from '../composables/useMapWindowEvents';
-import { useSearchStore } from '../stores/search';
+import Card from 'primevue/card';
 
 const props = defineProps<{ filteredProducts?: any[] }>();
 

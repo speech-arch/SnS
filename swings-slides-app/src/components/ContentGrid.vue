@@ -34,7 +34,7 @@
             <template #list="slotProps">
                 <div class="flex flex-col">
                     <div v-for="(item, index) in slotProps.items" :key="index">
-                        <Card :item="item" :layout="'list'" :index="index" @scroll-to-marker="scrollToMapMarker" />
+                        <Card :item="item" :layout="'list'" :index="index" @scroll-to-marker="scrollToMapMarker" @go-to-detail="goToDetail(item.id)" />
                     </div>
                 </div>
             </template>
@@ -42,7 +42,7 @@
             <template #grid="slotProps">
                 <div class="grid grid-cols-12 gap-4">
                     <div v-for="(item, index) in slotProps.items" :key="index" class="col-span-12 sm:col-span-6 md:col-span-4 xl:col-span-6 p-2">
-                        <Card :item="item" :layout="'grid'" :index="index" @scroll-to-marker="scrollToMapMarker" />
+                        <Card :item="item" :layout="'grid'" :index="index" @scroll-to-marker="scrollToMapMarker" @go-to-detail="goToDetail(item.id)" />
                     </div>
                 </div>
             </template>
@@ -85,6 +85,7 @@ import { useSearchFilter } from '../composables/useSearchFilter';
 import { storeToRefs } from 'pinia';
 import { useDataStore } from '@/stores/data';
 import { useDynamicFilterSort } from '@/composables/useDynamicFilterSort';
+import router from '@/router';
 
 
 const searchStore = useSearchStore();
@@ -136,4 +137,7 @@ function scrollToMapMarker(productId: string) {
   }, 800);
 }
 
+function goToDetail(parkId: any) {
+  router.push({ name: 'park-detail', params: { id: parkId } });
+}
 </script>

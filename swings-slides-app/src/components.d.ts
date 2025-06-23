@@ -13,7 +13,7 @@ declare module 'vue' {
     Badge: typeof import('primevue/badge')['default']
     BaseLayout: typeof import('./components/BaseLayout.vue')['default']
     Button: typeof import('primevue/button')['default']
-    Card: typeof import('primevue/card')['default']
+    Card: typeof import('./components/Card.vue')['default']
     CardChips: typeof import('./components/CardChips.vue')['default']
     CardImage: typeof import('./components/CardImage.vue')['default']
     Carousel: typeof import('primevue/carousel')['default']

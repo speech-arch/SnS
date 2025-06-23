@@ -8,7 +8,7 @@
         <InfoCard :category="item.category" :name="item.name" :rating="item.rating" :layout="layout"/>
       </div>
       <div class="flex flex-col md:items-end gap-8">
-        <ActionsCard :price="item.price" :outOfStock="item.inventoryStatus === 'OUTOFSTOCK'" :layout="layout" @scroll-to-marker="$emit('scroll-to-marker', item.id)" />
+        <ActionsCard :price="item.price" :outOfStock="item.inventoryStatus === 'OUTOFSTOCK'" :layout="layout" @scroll-to-marker="$emit('scroll-to-marker', item.id)" @go-to-detail="$emit('go-to-detail', item.id)" />
       </div>
     </div>
   </div>
@@ -23,7 +23,7 @@
         <InfoCard :category="item.category" :name="item.name" :rating="item.rating" :layout="layout"/>
       </div>
       <div class="flex flex-col gap-6 mt-6">
-        <ActionsCard :price="item.price" :outOfStock="item.inventoryStatus === 'OUTOFSTOCK'" :layout="layout" @scroll-to-marker="$emit('scroll-to-marker', item.id)" />
+        <ActionsCard :price="item.price" :outOfStock="item.inventoryStatus === 'OUTOFSTOCK'" :layout="layout" @scroll-to-marker="$emit('scroll-to-marker', item.id)" @go-to-detail="$emit('go-to-detail', item.id)" />
       </div>
     </div>
   </div>
@@ -45,13 +45,12 @@ interface Product {
   inventoryStatus: string;
   rating: number;
 }
-
 const props = defineProps<{
   item: Product;
   layout?: string;
   index?: number;
 }>();
 
-const emit = defineEmits(['scroll-to-marker']);
+const emit = defineEmits(['scroll-to-marker', 'go-to-detail']);
 useProductCard(props, emit);
 </script>
