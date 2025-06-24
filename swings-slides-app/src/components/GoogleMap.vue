@@ -1,5 +1,5 @@
 <template>
-    <Card class="border-surface-200 dark:border-surface-700 rounded-xl m-2 p-4 shadow-md transform scale-95 transition-transform duration-300">
+    <Card class="card border-surface-200 dark:border-surface-700 rounded-xl m-2 mt-0 p-4 shadow-md transform scale-100 transition-transform duration-300">
         <template #title class="m-0 font-bold text-[30px]">Location</template>
         <template #content>
          <div class="relative w-full h-[300px] rounded shadow">
