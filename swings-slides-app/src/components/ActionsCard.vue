@@ -1,6 +1,6 @@
 <template>
   <div :class="wrapperClass">
-    <ChipsCard :chips="chips" :title="title" :chipsAreaWrapperClass="chipsAreaWrapperClass" :show-toggle-button="showToggleButton"/>
+    <!-- <ChipsCard :chips="chips" :title="title" :chipsAreaWrapperClass="chipsAreaWrapperClass" :show-toggle-button="showToggleButton"/> -->
           <div class="flex flex-col mt-2 mb-2 gap-1">
           <span class="font-bold text-lg text-black-600 mb-5">{{ title }}</span>
             <div class="flex flex-wrap gap-2 text-sm">

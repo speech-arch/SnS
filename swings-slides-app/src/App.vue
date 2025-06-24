@@ -5,6 +5,9 @@
     <main class="pt-20 pb-20 bg-gray-100 dark:bg-gray-800 rounded shadow w-full min-h-screen flex flex-col max-w-none mx-0">
       <RouterView />
     </main>
+    <footer class="w-full py-4 px-6 bg-white dark:bg-black border-t border-surface-200 dark:border-surface-700 text-center text-sm text-gray-500 dark:text-gray-400 hidden sm:block sticky bottom-0 left-0">
+      © {{ new Date().getFullYear() }} Swings & Slides Parks App. All rights reserved.
+    </footer>
   </div>
 </template>
 
@@ -30,6 +33,14 @@ const items = ref([
   {
     label: 'places',
     icon: 'pi pi-map-marker'
+  },
+  {
+    label: 'Create',
+    icon: 'pi pi-plus',
+  },
+  {
+    label: 'About',
+    icon: 'pi pi-info-circle'
   },
 ]);
 

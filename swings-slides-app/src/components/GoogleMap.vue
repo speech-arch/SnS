@@ -19,7 +19,6 @@
 
 <script setup lang="ts">
 import { useUserLocationStore } from '../stores/userLocation';
-import { computed, ref, watch, onMounted, toRefs } from 'vue';
 import { getDistanceKm, setUserMarkerAndCenter, addLocationMarkers } from '../composables/useMapUtils';
 import { useMapWindowEvents } from '../composables/useMapWindowEvents';
 import Card from 'primevue/card';
@@ -165,12 +164,8 @@ useMapWindowEvents({
   locationMarkers,
   filteredLocations,
 });
-</script>
 
-<style scoped>
-</style>
-
-<script lang="ts">
+// Global window type declarations
 declare global {
   interface Window {
     google: any;

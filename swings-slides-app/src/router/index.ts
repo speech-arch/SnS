@@ -49,6 +49,11 @@ const router = createRouter({
       name: 'signup',
       component: () => import('../views/SignupView.vue'),
     },
+    {
+      path: '/create-park',
+      name: 'create-park',
+      component: () => import('../views/CreateParkView.vue'),
+    },
   ],
 })
 

@@ -14,20 +14,23 @@
   </Card>
 </template>
 
-<script setup>
-import { defineProps, defineEmits } from 'vue';
-import Card from 'primevue/card';
-import Button from 'primevue/button';
-import Rating from 'primevue/rating';
+<script setup lang="ts">
+import type { ParkRelated } from '@/types/park';
 
-const props = defineProps({
-  item: { type: Object, required: true },
-  imageKey: { type: String, default: 'image' },
-  nameKey: { type: String, default: 'name' },
-  locationKey: { type: String, default: 'location' },
-  ratingKey: { type: String, default: 'rating' },
-  cardClass: { type: String, default: '' }
-});
+const props = defineProps<{
+  item: ParkRelated;
+  imageKey?: string;
+  nameKey?: string;
+  locationKey?: string;
+  ratingKey?: string;
+  cardClass?: string;
+}>();
 
-const emit = defineEmits(['view-details']);
+const imageKey = props.imageKey ?? 'image';
+const nameKey = props.nameKey ?? 'name';
+const locationKey = props.locationKey ?? 'location';
+const ratingKey = props.ratingKey ?? 'rating';
+const cardClass = props.cardClass ?? '';
+
+defineEmits(['view-details']);
 </script>

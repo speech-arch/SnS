@@ -1,39 +1,21 @@
-<template>
-  <div>
-    <h2 :class="titleClass">{{ title }}</h2>
-    <div :class="listClass">
-      <component
-        v-for="item in items"
-        :key="item[idKey] || item[nameKey]"
-        :is="customCard || 'DefaultCard'"
-        :item="item"
-        :image-key="imageKey"
-        :name-key="nameKey"
-        :location-key="locationKey"
-        :rating-key="ratingKey"
-        :card-class="cardClass"
-        @view-details="$emit('view-details', item)"
-      />
-    </div>
-  </div>
-</template>
+<script setup lang="ts">
+interface ItemType {
+  [key: string]: any;
+}
 
-<script setup>
-import { defineProps, defineEmits } from 'vue';
-
-const props = defineProps({
-  items: { type: Array, default: () => [] },
-  title: { type: String, default: '' },
-  imageKey: { type: String, default: 'image' },
-  nameKey: { type: String, default: 'name' },
-  locationKey: { type: String, default: 'location' },
-  ratingKey: { type: String, default: 'rating' },
-  idKey: { type: String, default: 'id' },
-  class: { type: String, default: '' },
-  cardClass: { type: String, default: '' },
-  titleClass: { type: String, default: '' },
-  customCard: { type: [Object, Function, String], default: null }
-});
+const props = defineProps < {
+  items: ItemType[];
+  title?: string;
+  imageKey?: string;
+  nameKey?: string;
+  locationKey?: string;
+  ratingKey?: string;
+  idKey?: string;
+  class?: string;
+  cardClass?: string;
+  titleClass?: string;
+  customCard?: object | Function | string | null;
+} > ();
 
 const emit = defineEmits(['view-details']);
 
@@ -41,3 +23,15 @@ const listClass = props.class || 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
 const titleClass = props.titleClass || 'text-2xl font-semibold mb-4';
 const cardClass = props.cardClass || 'rounded-t-xl h-32 w-full object-cover';
 </script>
+
+<template>
+  <div>
+    <h2 :class="titleClass">{{ title }}</h2>
+    <div :class="listClass">
+      <component v-for="item in items" :key="(item as any)[idKey ?? 'id'] || (item as any)[nameKey ?? 'name']"
+        :is="customCard || 'DefaultCard'" :item="item" :image-key="imageKey" :name-key="nameKey"
+        :location-key="locationKey" :rating-key="ratingKey" :card-class="cardClass"
+        @view-details="$emit('view-details', item)" />
+    </div>
+  </div>
+</template>
