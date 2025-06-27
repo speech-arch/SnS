@@ -15,7 +15,7 @@ export interface Product {
 
 const products: Product[] = [
   {
-    id: '1000',
+    id: '1',
     code: 'f230fh0g3',
     name: 'Bamboo Watch',
     description: 'Product Description',

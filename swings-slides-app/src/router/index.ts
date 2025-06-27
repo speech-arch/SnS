@@ -23,9 +23,36 @@ const router = createRouter({
       component: () => import('../views/EventsView.vue'),
     },
     {
+      path: '/events/:id',
+      name: 'event-detail',
+      component: () => import('../views/EventDetailView.vue'),
+      props: true,
+    },
+    {
       path: '/parks',
       name: 'parks',
       component: () => import('../views/ParksView.vue'),
+    },
+    {
+      path: '/parks/:id',
+      name: 'park-detail',
+      component: () => import('../views/ParkDetailView.vue'),
+      props: true,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue'),
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: () => import('../views/SignupView.vue'),
+    },
+    {
+      path: '/create-park',
+      name: 'create-park',
+      component: () => import('../views/CreateParkView.vue'),
     },
   ],
 })
