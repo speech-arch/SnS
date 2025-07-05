@@ -1,5 +1,3 @@
-// src/services/ProductService.ts
-
 export interface Product {
   id: string;
   code: string;
@@ -26,7 +24,6 @@ const products: Product[] = [
     inventoryStatus: 'INSTOCK',
     rating: 5
   },
-  // Add more products as needed
 ];
 
 export class ProductService {

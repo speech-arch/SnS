@@ -1,10 +1,10 @@
 <template>
   <div class="w-full p-4 bg-gray-50 dark:bg-gray-900 rounded-b-xl shadow flex flex-col gap-4">
-    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">Add a Review</h3>
+    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">Leave your review</h3>
     <form @submit.prevent="handleSubmit" class="flex flex-col gap-3">
       <div class="flex flex-col gap-1">
         <label for="author" class="text-sm text-gray-700 dark:text-gray-200">Name</label>
-        <InputText v-model="form.author" id="author" type="text" required maxlength="32"
+        <input v-model="form.author" id="author" type="text" required maxlength="32"
           class="rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
       </div>
       <div class="flex flex-col gap-1">
@@ -13,15 +13,15 @@
       </div>
       <div class="flex flex-col gap-1">
         <label for="comment" class="text-sm text-gray-700 dark:text-gray-200">Comment</label>
-        <InputTextarea v-model="form.comment" id="comment" required maxlength="300"
+        <textarea v-model="form.comment" id="comment" required maxlength="300"
           class="rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
       </div>
-      <Button type="submit"
-        label="Submit Review"
-        icon="pi pi-check"
+      <button type="submit"
         class="self-start bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded shadow disabled:opacity-50 disabled:cursor-not-allowed"
         :disabled="!form.author || !form.rating || !form.comment"
-      />
+      >
+        <i class="pi pi-check mr-2"></i>Submit Review
+      </button>
     </form>
   </div>
 </template>
